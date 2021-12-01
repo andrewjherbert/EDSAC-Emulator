@@ -79,6 +79,10 @@ read_binary_to_store()
   int sandwich = 0;
   int loc = 0;
   int ch = fgetc(Tape_reader);
+  /* dispose of BOM if UTF-8 0xEF, 0xBB, 0xBF */
+  if ( ch == 0xEF ) {
+    fgetc(Tape_reader);  ch = fgetc(Tape_reader);
+  }
   fputs("read_binary_to_store\n", stderr);
   while ( ch != EOF ) {
     while ( strchr(" \n\t\r", ch) != NULL ) {

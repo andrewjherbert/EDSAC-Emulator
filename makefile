@@ -6,6 +6,9 @@ OBJS=arith.o control.o edsac.o error.o exec_ord.o \
      execute.o fetch.o init.o inout.o main.o   \
      memory.o mult.o shift.o printbits.o
 
+all: edsac punch tprint
+.PHONY: all
+
 edsac: proto.h $(OBJS)
 	$(CC) -o $@ $(OBJS)
 
@@ -32,7 +35,7 @@ tprint.o: tprint.h
 tprint: tprint.o
 	$(CC) -o $@ tprint.o
 
-all: edsac punch tprint
+.PHONY: clean
 
 clean:
 	rm -f *.o proto.h punch.h tprint.h
