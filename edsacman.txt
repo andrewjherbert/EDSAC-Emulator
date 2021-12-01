@@ -1,0 +1,69 @@
+NAME
+
+edsac -- EDSAC simulator
+
+SYNOPSIS
+
+edsac [ [ -csr01b] [ -vn] [- lnnn] [ file ] ] ...
+
+DESCRIPTION
+
+Edsac simulates the execution of the EDSAC computer.  The files
+on the command line represent tapes to be set up in the tape
+reader and the options -c, -s, and -r represent buttons on the
+machine's control panel.  A file argument means "Place this 'tape'
+in the reader"; an option means "Press this button."  The "button"
+options are interpreted as follows:
+
+-c	Clear button.  Clear the store & the registers.
+
+-s	Start button.  Load and execute the initial orders.
+
+-r  Reset button.  Restart the machine after it stops.
+
+The September 1949 initial orders are used by default unless one of the
+following options is specified:
+
+-0	Use the May 1949 initial orders for the following programs.
+-1	Use the September 1949 initial orders for the following programs.
+-b      Read a series of 18 digit binary numbers punched in ASCII code into
+        store location zero onwards, terminated by end of file.
+
+(The -b option simulates the use of the SSI unit of the EDSAC replica at
+The National Museum of Computing for directly loading programs into store.)
+
+If no files are specified or - is used as a file name, the standard input
+is read.  If there are no files or options on the command line, the clear
+and start buttons are automatically pressed.
+
+The -v option controls the verbosity of execution tracing.
+
+-v0     No tracing.
+-v1     Trace every order by typing it's order code letter.  If a
+        G or E order jumps, a newline is output following.
+-v2     as -v1 but also show value in accumulator every time it is changed.
+
+The -l options puts a limit on the number of orders executed.
+
+-lnnn   Stop after executing nnn orders where nnn is a decimal number.
+
+EXAMPLES
+
+Punch "program.e", and execute it, printing the results:
+
+punch program.e | edsac | tprint
+
+Execute the program in "tape" and then run a post-mortem routine ("post").
+
+edsac tape -cs post -r | tprint
+
+SEE ALSO
+
+punch(EDSAC), tprint(EDSAC)
+
+BUGS
+
+The use of command line arguments to simulate pressing buttons is awkward,
+to say the least.  In particular, it is difficult to remember to put -s
+at the end of the command line when files are specified or the -0 option is
+being used.
