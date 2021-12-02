@@ -1,7 +1,6 @@
 /*
  * punch.c -- Emulate the EDSAC keyboard perforator.
  *			  Input will be native character set
- *			  (some IBM-PC ASCII hard-coded);
  *			  output will be corresponding EDSAC perforator codes
  *
  *				  Usage:  punch [-xstr1] [file1] [-xstr2] [file2] ...
@@ -31,14 +30,14 @@
  * AJH  14/11/21 added int result type to main
  *               removed greek symbols on input
 */
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
 #include <wchar.h>
 #include <locale.h>
+#include <langinfo.h>
 #include "punch.h"
-
-#define	BELL		"\a"
 
 int Filecount = 0;		/* number of files punched so far */
 
@@ -49,7 +48,10 @@ char *argv[];
 	int i;
 	FILE *f;
 
-	setlocale(LC_ALL, ""); /* use system locale */
+	if ( setlocale(LC_ALL, "") == NULL ) { /* use system locale */
+	  fputs("Cannot open to native locale\n", stderr);
+	  exit(1);
+	}
 
 	for (i = 1; i < argc; i++) {
 
@@ -58,8 +60,9 @@ char *argv[];
 		else {
 			++Filecount;
 
-			if ((f = fopen(argv[i], "rb")) != NULL)
+			if ((f = fopen(argv[i], "r")) != NULL) {
 				punch_file(f);
+			}
 			else
 				fprintf(stderr, "%s:  Can't open file\n", argv[i]);
 		}
@@ -103,22 +106,30 @@ void
 punch_file(infile)
 FILE *infile;
 {
-        wchar_t c;
-
+        wint_t c;
 	fwide(infile, 1); /* select wide characters */
-	while ((c = getwc(infile)) != WEOF)
-	  if ( c <= 127 ) {
+	c = getwc(infile);
+	if ( (strcmp(nl_langinfo(CODESET), "UTF-8") == 0) && (c == 0xef) ) { /* get rid of UTF-8 BOM */
+	  getwc(infile); getwc(infile); c = getwc(infile);
+	}
+	while (c != WEOF )
+	  
+	  if ( c < 127 ) {
 	    punch_char((int) c);
-	    } /* ignore non-ASCII */
+	    c = getwc(infile);
+	  } else {
+	    fputs("None ASCII character ignored in input\n", stderr);
+	  }
 }
 
 /*
- * punch_string -- punch the codes for the characters in string "s"
+ * punch_string -- punch the codes for the characters in string "s"  
  */
 void
 punch_string(s)
 char *s;
 {
+  fprintf(stderr, "punch_string\n");
 	while (*s != '\0')
 		punch_char(*s++);
 }
@@ -148,7 +159,7 @@ const char letter_codes[] =
 		"PQWERTYUIOJ~SZK*";
 const char figure_codes[] =
 		".~@,!+-'&%~~:?()"
-		"0123456789" BELL "#'~(*";
+		"0123456789~#'~(*";
 
 /*
  * punch_char -- "punch" the EDSAC perforator code for the character "c"
@@ -160,43 +171,45 @@ int c;
 	static int escape_flag = 0;		/* was last char '\\' ? */
 	static int comment_flag = 0;            /* was last char '[' ?  */
 	char *ptr;
-
-	if (comment_flag && (c = ']')) {
-	  comment_flag = 0; /* end of comment reached */
+	if (comment_flag && (c == ']')) {
+	        comment_flag = 0;               /* end of comment reached */
 	} else if (escape_flag) {		/* escape sequence? */
-		escape_flag = 0;
+	        escape_flag = 0;
 
 		switch (c) {
-		case 'p':				/* Pi */
+		case 'p':		        /* Pi */
 			putc(0x1b, stdout);
 			break;
-		case 's':				/* section symbol */
+		case 's':		        /* section symbol */
 			putc(0x1d, stdout);
 			break;
-		case 'e':				/* Erase */
+		case 'e':			/* Erase */
 			putc(0x1f, stdout);
 			break;
-		case 'h':				/* Theta */
+		case 'h':			/* Theta */
 			putc(0x02, stdout);
 			break;
-		case 'f':				/* Phi */
+		case 'f':			/* Phi */
 			putc(0x04, stdout);
 			break;
-		case 'd':				/* Delta */
+		case 'd':			/* Delta */
 			putc(0x08, stdout);
 			break;
 		default:
-			/* ignore sequence */
+		  fprintf(stderr, "Uknown escape \\%c ignored\n", c);
 			break;
 		}
 
 	} else if (c == '\\') {
-		escape_flag = 1; /* start of escape sequence
-	} else if (c = '[') {
-	        comment_flag = 1; /* start of comment */
+	        escape_flag = 1;        /* start of escape sequence */
+	} else if (c == '[') {
+	        comment_flag = 1; /* start of comment */ 
 	} else if (c != DUMMY && (ptr = strchr(letter_codes, toupper(c))) != NULL) {
-		putc(ptr - letter_codes, stdout);
+	        putc(ptr - letter_codes, stdout); 
 	} else if (c != DUMMY && (ptr = strchr(figure_codes, c)) != NULL) {
-		putc(ptr - figure_codes, stdout);
-	} /* otherwise, ignore the input character */
+	        putc(ptr - figure_codes, stdout); 
+	} else if ( strchr(" \n\r\t", c) == NULL ) { /* ignore white space */
+	        /* reject bogus input characters */
+	        fprintf(stderr, "Unxpected character \"%c\" (%3d) in input ignored\n", c, c);
+	}
 }

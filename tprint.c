@@ -16,6 +16,7 @@
  *               input is opened as binary
  *               improved handling of output of £
  */
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <wchar.h>
@@ -70,7 +71,10 @@ char *argv[];
 	FILE *f;
 
 	/* We wish to use the user's current locale. */
-	setlocale(LC_ALL, "");
+	if ( setlocale(LC_ALL, "")  == NULL ) {
+	  fputs("Cannot open native locate\n", stderr);
+	  exit(1);
+	}
 
 	/* We intend to use wide functions on standard output. */
 	fwide(stdout, 1);

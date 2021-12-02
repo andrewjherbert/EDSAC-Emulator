@@ -1,0 +1,19 @@
+** allocator metrics:
+.. allocs:                       13341
+.. frees:                        13265
+...0) 27 bytes in alloc #1:00D80DD0
+...39) 5 bytes in alloc #3041:00D8D600
+...40) 60 bytes in alloc #3042:00D81440
+...41) 8 bytes in alloc #3043:00D8D650
+...174) 8 bytes in alloc #3044:00D8D630
+...175) 5 bytes in alloc #3045:00D8D620
+...176) 60 bytes in alloc #3046:00D8DEF0
+...177) 8 bytes in alloc #3049:00D8D640
+...178) 7 bytes in alloc #3048:00D8D570
+...179) 24 bytes in alloc #3050:00D8DE50
+.. total bytes allocated:         1588
+.. current bytes allocated:       1588
+.. maximum bytes allocated:      28919
+.. segment-table length:           414
+.. current # of segments:           76
+.. maximum # of segments:          489

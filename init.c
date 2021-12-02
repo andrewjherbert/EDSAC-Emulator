@@ -9,7 +9,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <wchar.h>
 #include <string.h>
+#include <locale.h>
+#include <langinfo.h>
 #include "edsac.h"
 #include "orders.h"
 #include "proto.h"
@@ -79,16 +82,18 @@ read_binary_to_store()
   int sandwich = 0;
   int loc = 0;
   int ch = fgetc(Tape_reader);
-  /* dispose of BOM if UTF-8 0xEF, 0xBB, 0xBF */
-  if ( ch == 0xEF ) {
-    fgetc(Tape_reader);  ch = fgetc(Tape_reader);
+  if (strcmp(nl_langinfo(CODESET), "UTF-8") == 0) { /* test for UTF-8 */
+    /* dispose of BOM if present */
+    if ( ch == 0xEF ) {
+      fgetc(Tape_reader);  ch = fgetc(Tape_reader);
+    }
   }
   fputs("read_binary_to_store\n", stderr);
-  while ( ch != EOF ) {
+  while ( ch != WEOF ) {
     while ( strchr(" \n\t\r", ch) != NULL ) {
       ch = fgetc(Tape_reader); /* skip white space */
       }
-    if ( ch != EOF ) {
+    if ( ch != WEOF ) {
       if ( loc >= STORE_SIZE ) {
 	fputs("Binary input too large to store\n", stderr);
 	exit(1);
