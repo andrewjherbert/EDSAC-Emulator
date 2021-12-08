@@ -49,6 +49,16 @@ INSTALLATION
 The emulator has been build on MacOS, Raspbian and Windos 10 using gcc and
 gmake.
 
+The archive as distributed contains MacOS executables for the three commands,
+punch, edsac and tprint, and Windows executables punch.exe, edsac.exe and
+tprint.exe.
+
+Thus for Windows and MacOS users no compilation is required, unless it is
+desired to change the source code.
+
+The archive contains all the sources (.c and .h files) needed to build a
+new version via the make command.
+
 To compile for a Unix operating system copy the file makefile-unix to
 makefile and type
 the commands:
@@ -58,10 +68,10 @@ make all
 For a windows system, copy the file makefile-widows to makefile and repeat
 the same commands.
 
-Note that both builds require the cproto utility to build function prototype
-headers.  On a Mac "brew install cproto" if required, on a Linux system
-"apt install cproto and for Windows sources can be foound at:
-http://sourceforge.net/projects/cproto/.
+Note that both buildsthe makefiles require the cproto utility to build
+function prototype headers.  On a Mac "brew install cproto" if required,
+on a Linux system "apt install cproto. A indows version can be found at:
+https://invisible-island.net/cproto/cproto.html.
 
 
 Andrew Herbert 02/12/2021

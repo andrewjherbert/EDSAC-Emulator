@@ -24,6 +24,7 @@ void execute(void);
 void fetch_order(void);
 /* init.c */
 void initialize(void);
+WORD read_18_bits(void);
 void read_binary_to_store(void);
 void process_options(char *options);
 /* inout.c */

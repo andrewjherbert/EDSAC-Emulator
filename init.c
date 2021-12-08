@@ -76,35 +76,22 @@ initialize()
 
 }
 
-void
-read_binary_to_store()
+WORD
+read_18_bits()
 {
-  int sandwich = 0;
-  int loc = 0;
-  int ch = fgetc(Tape_reader);
-  if (strcmp(nl_langinfo(CODESET), "UTF-8") == 0) { /* test for UTF-8 */
-    /* dispose of BOM if present */
-    if ( ch == 0xEF ) {
-      fgetc(Tape_reader);  ch = fgetc(Tape_reader);
-    }
-  }
-  fputs("read_binary_to_store\n", stderr);
-  while ( ch != WEOF ) {
+  int64_t word = 0;
+  int ch = fgetc(Tape_reader); 
+
+  while ( ch != EOF ) {
     while ( strchr(" \n\t\r", ch) != NULL ) {
       ch = fgetc(Tape_reader); /* skip white space */
       }
-    if ( ch != WEOF ) {
-      if ( loc >= STORE_SIZE ) {
-	fputs("Binary input too large to store\n", stderr);
-	exit(1);
-      }
-      /* load next word in store */
-      Store[loc] = 0;
+    if ( ch != EOF ) {
       for ( int bit = 1 ; bit <= 18 ; bit++ ) { /* load bits into a word */
   	if ( ch == '1' ) {
-	  Store[loc] = (Store[loc] << 1) + 1;
+	  word = (word << 1) + 1;
 	} else if ( ch == '0' ) {
-	  Store[loc] = Store[loc] << 1;
+	  word <<= 1;
 	} else if ( ch == EOF ) {
 	  fputs("Unexpected end of file in binary input\n", stderr);
 	  exit(1);
@@ -114,21 +101,48 @@ read_binary_to_store()
 	}
 	ch = fgetc(Tape_reader);
       }
-
-      /* deal with sandwich digit */
-      Store[loc] = Store[loc] | sandwich;    
-      sandwich = ((loc&1) == 1 ) ? (Store[loc]&1) << 18: 0;
-
-      Store[loc] >>= 1;
-
-      fprintf(stderr, "%4d: ", loc);
-      printbits_18(Store[loc]);
-      fputc('\n', stderr);
-
-      loc++;
+      ungetc(ch, Tape_reader);
+      return word;
     }
   }
+  return -1; /* run out of data */
 }
+    
+void
+read_binary_to_store()
+{
+  int loc = 0, value;
+
+  fputs("read_binary_to_store\n", stderr);
+
+  int ch = fgetc(Tape_reader);
+  if (! strcmp(nl_langinfo(CODESET), "UTF-8") ) { /* test for UTF-8 */
+    /* dispose of BOM if present */
+    if ( ch == 0xEF ) {
+      for ( int i = 1 ; i <= 3 ; i++ ) fgetc(Tape_reader);
+    } 
+  }
+  ungetc(ch, Tape_reader);
+
+  if ( loc >= STORE_SIZE ) {
+     fputs("Binary input too large to store\n", stderr);
+     exit(1);
+  }
+
+  while ( (value = read_18_bits()) != -1 ) {
+    Store[loc] = value >> 1;
+    if ( ((value & 1) == 1) && (loc > 0) ) {
+      Store[loc-1] += 131072;
+    }
+
+    fprintf(stderr, "%4d ", loc);
+    printbits_18(Store[loc]);
+    fputc('\n', stderr);
+    loc++;
+  }
+  
+}
+      
 
 /*
  * process_options -- Process a string of command-line options.

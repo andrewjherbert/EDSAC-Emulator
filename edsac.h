@@ -15,7 +15,7 @@ extern STATUS EDSAC_status;
  * EDSAC word size is 17 bits
  * (18 bits when "sandwich bit" used in a double-word variable)
  */
-typedef int32_t WORD;
+typedef long WORD;
 
 #define HIWORD_BITS		17				/* # of bits/word */
 #define MAX_HIWORD		(~(~0L << HIWORD_BITS))		/* mask for usable bits */

@@ -17,6 +17,7 @@ WORD x; int n;
     fputc('0'|(x>>i)&1,stderr);
 
 }
+     
 void
 printbits_18(x)
 WORD x;
