@@ -112,9 +112,6 @@ void
 read_binary_to_store()
 {
   int loc = 0, value;
-
-  fputs("read_binary_to_store\n", stderr);
-
   int ch = fgetc(Tape_reader);
   if (! strcmp(nl_langinfo(CODESET), "UTF-8") ) { /* test for UTF-8 */
     /* dispose of BOM if present */
@@ -134,10 +131,6 @@ read_binary_to_store()
     if ( ((value & 1) == 1) && (loc > 0) ) {
       Store[loc-1] += 131072;
     }
-
-    fprintf(stderr, "%4d ", loc);
-    printbits_18(Store[loc]);
-    fputc('\n', stderr);
     loc++;
   }
   
