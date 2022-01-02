@@ -51,6 +51,7 @@ int lflag;
 	putc(Set_up_char, Teleprinter);
 
 	Set_up_char = (Store[n+lflag] >> (HIWORD_BITS - CHAR_BITS)) & MAX_CHAR;
+	/* fprintf(stderr,"\nOutput code %d\n", Set_up_char); */
 }
 
 /*

@@ -2,6 +2,7 @@
  * control.c -- functions to emulate EDSAC's control operations
  *
  * LW	05/30/89
+ * AJH  29/12/21 -- improved halt diagnostic message
  */
 #include <stdio.h>
 #include "edsac.h"
@@ -18,8 +19,10 @@ ADDR n;
 int lflag;
 {
 	EDSAC_status = STOPPED;
-	fprintf(stderr, "\n\nExecution Halted @ location %u\n\n",
-						Sequence_control_tank - 1);
+	fprintf(stderr, "\n\nExecution Halted @ location %u by Z%d%c\n\n",
+		Sequence_control_tank - 1,
+		n,
+		lflag ? 'D' : 'F');
 }
 
 /*

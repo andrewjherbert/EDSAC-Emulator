@@ -64,8 +64,10 @@ exec_order()
 	   /* Accumulator has changed */
 	   a0 = Accumulator[0]; a1 = Accumulator[1];
 	   a2 = Accumulator[2]; a3 = Accumulator[3];
-	   for ( int i = 0 ; i < 4; i++ ) {
-	     fputc((i == 0) ? '\n' : ' ', stderr);
+	   fputc('\n', stderr);
+	   printbits_17(Accumulator[0]);
+	   for ( int i = 1 ; i < 4; i++ ) {
+	     fputc(' ', stderr);
 	     printbits_18(Accumulator[i]);
 	     }
 	   fputc('\n', stderr);

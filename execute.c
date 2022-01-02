@@ -15,9 +15,9 @@ execute()
 
 	for (EDSAC_status = RUNNING; EDSAC_status != STOPPED; ) {
 	  if ( Order_limit ) {
-	        Order_limit--;
-		fetch_order();
-		exec_order();
+	    if ( Order_limit > 0 ) Order_limit--;
+	    fetch_order();
+	    exec_order();
 	  } else {
 	    fputs("\n ***Order execution limit reached***\n\n", stderr);
 	    exit(1);

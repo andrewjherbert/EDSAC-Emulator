@@ -17,13 +17,13 @@ error(n, lflag)
 ADDR n;
 int lflag;
 {
-
-	fprintf(stderr, "\nExecution Error "
+  	EDSAC_status = STOPPED;
+	fprintf(stderr, "\nExecution Error @ location %u: "
 					"Order = %c %u %c\n\n",
+	                         	Sequence_control_tank - 1,
 					ORDER_CODES[Order_tank.o_func],
 					Order_tank.o_addr,
 					(Order_tank.o_long ? 'D' : 'F'));
-	halt(n, lflag);
 }
 
 /*
@@ -39,9 +39,18 @@ ADDR n;
 int lflag;
 {
 
-	if (lflag && odd(n))		/* "long" location not even */
-		n &= ~1;
+  if ( n >= STORE_SIZE ) {
+    EDSAC_status = STOPPED;
+    fprintf(stderr, "\nAddressing beyond end of store @ location %u: "
+					"Order = %c %u %c\n\n",
+	                         	Sequence_control_tank - 1,
+					ORDER_CODES[Order_tank.o_func],
+					Order_tank.o_addr,
+					(Order_tank.o_long ? 'D' : 'F'));
+  }
+  if (lflag && odd(n))	/* "long" location not even */
+     n &= ~1;
 
-	return(n % STORE_SIZE);
+  return(n);
 
 }
