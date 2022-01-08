@@ -32,6 +32,7 @@
 */
 #include <stdlib.h>
 #include <stdio.h>
+
 #include <string.h>
 #include <ctype.h>
 #include <wchar.h>
@@ -171,8 +172,10 @@ int c;
 	static int escape_flag = 0;		/* was last char '\\' ? */
 	static int comment_flag = 0;            /* was last char '[' ?  */
 	char *ptr;
-	if (comment_flag && (c == ']')) {
-	        comment_flag = 0;               /* end of comment reached */
+	if (comment_flag) {                     /* in a comment? */
+	  if ( c == ']' ) {
+	    comment_flag = 0;                   /* end of comment reached */
+	  } else return;                        /* ignore characters in comments */
 	} else if (escape_flag) {		/* escape sequence? */
 	        escape_flag = 0;
 
