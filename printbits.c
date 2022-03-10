@@ -11,9 +11,10 @@
 
 void
 printbits_n(x,n)
-WORD x; int n;
+     WORD x; int n;
 {
-  for ( int i = n-1; i >= 0 ; i-- )
+  int i;
+  for ( i = n-1; i >= 0 ; i-- )
     fputc('0'|(x>>i)&1,stderr);
 
 }

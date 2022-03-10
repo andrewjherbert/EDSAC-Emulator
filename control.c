@@ -1,66 +1,57 @@
 /*
  * control.c -- functions to emulate EDSAC's control operations
  *
- * LW	05/30/89
- * AJH  29/12/21 -- improved halt diagnostic message
+ * LW   05/30/89
+ * LW   09/14/21 -- function headers updated to C89
+ * AJH  10/03/22 -- Halt message extended
  */
 #include <stdio.h>
 #include "edsac.h"
 #include "proto.h"
 
-#define ACCUM_IS_NEGATIVE	 (Accumulator[0] & SIGN_BIT)
+#define ACCUM_IS_NEGATIVE    (Accumulator[0] & SIGN_BIT)
 
 /*
  * halt -- Stop the machine and ring the warning bell
  */
 void
-halt(n, lflag)
-ADDR n;
-int lflag;
+halt(ADDR n, int lflag)
 {
-	EDSAC_status = STOPPED;
-	fprintf(stderr, "\n\nExecution Halted @ location %u by Z%d%c\n\n",
-		Sequence_control_tank - 1,
-		n,
-		lflag ? 'D' : 'F');
+    EDSAC_status = STOPPED;
+    fprintf(stderr, "\n\nExecution Halted @ location %u by Z%d%c\n\n",
+		Sequence_control_tank - 1, n, lflag ? 'D' : 'F');
 }
 
 /*
  * no_operation -- null instruction
  */
 void
-no_operation(n, lflag)
-ADDR n;
-int lflag;
+no_operation(ADDR n, int lflag)
 {}
 
 /*
  * pos_branch -- branch to the order in storage location "n" if
- *				 the number in the accumulator is greater than or
- *				 equal to zero
+ *               the number in the accumulator is greater than or
+ *               equal to zero
  */
 void
-pos_branch(n, lflag)
-ADDR n;
-int lflag;
+pos_branch(ADDR n, int lflag)
 {
-	n = check_addr(n, 0);	/* D code is meaningless for E order */
+    n = check_addr(n, 0);   /* D code is meaningless for E order */
 
-	if (!ACCUM_IS_NEGATIVE)
-		Sequence_control_tank = n;
+    if (!ACCUM_IS_NEGATIVE)
+        Sequence_control_tank = n;
 }
 
 /*
  * neg_branch -- branch to the order in storage location "n" if
- *				 the number in the accumulator is less than zero
+ *               the number in the accumulator is less than zero
  */
 void
-neg_branch(n, lflag)
-ADDR n;
-int lflag;
+neg_branch(ADDR n, int lflag)
 {
-	n = check_addr(n, 0);	/* D code is meaningless for G order */
+    n = check_addr(n, 0);   /* D code is meaningless for G order */
 
-	if (ACCUM_IS_NEGATIVE)
-		Sequence_control_tank = n;
+    if (ACCUM_IS_NEGATIVE)
+        Sequence_control_tank = n;
 }
