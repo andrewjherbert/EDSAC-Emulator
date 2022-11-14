@@ -27,6 +27,7 @@
  * LW   09/14/21 -- function headers updated to C89
  *               -- explicit return of EXIT_SUCCESS
  * AJH  10/03/22 -- main returns int, added comment re -b, -l  -v options
+ * AJH  14/11/22 -- fixed error in verbose tracing
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -42,8 +43,8 @@ int main(int argc, char *argv[])
     Teleprinter = stdout;
 
     if (argc == 1) {        /* nothing specified on command line */
-        initialize();
-        execute();
+      initialize();
+      execute();
     } else {
 
         for (i = 1; i < argc; i++) {

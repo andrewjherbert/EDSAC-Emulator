@@ -56,7 +56,7 @@ exec_order(void)
     int i;
     /* call the appropriate function to perform the operation */
     WORD sct = Sequence_control_tank; /* remember sct in order to detect jumps */
-    if ( Verbose > 0 ) {
+    if ( Verbose > 0 ) 
       fputc(ORDER_CODES[Order_tank.o_func], stderr);
     /* call the appropriate function to perform the operation */
     Optab[Order_tank.o_func](Order_tank.o_addr, Order_tank.o_long);
@@ -73,8 +73,7 @@ exec_order(void)
 	     printbits_18(Accumulator[i]);
 	     }
 	   fputc('\n', stderr);
-	 }
-	 if ( (Verbose > 0) && Sequence_control_tank != sct )
-	   fputc('\n', stderr); /* a jump occured */
     }
+    if ( (Verbose > 0) && Sequence_control_tank != sct )
+	   fputc('\n', stderr); /* a jump occured */
 }

@@ -127,12 +127,13 @@ initialize(void)
     if ( Initial_Orders < 0 ) {
       read_binary_to_store();
     } else {
-      for (i = 0; Uniselectors[Initial_Orders][i].o_func >= 0; i++)
+      for (i = 0; Uniselectors[Initial_Orders][i].o_func >= 0; i++) {
           Store[i] = ((WORD) Uniselectors[Initial_Orders][i].o_func
                                 << (ADDR_BITS + FLAG_BITS))
                         + (Uniselectors[Initial_Orders][i].o_addr
                                 << (FLAG_BITS))
                         + (Uniselectors[Initial_Orders][i].o_long);
+      }
     }
 
     Sequence_control_tank = 0;

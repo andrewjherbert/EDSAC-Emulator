@@ -9,11 +9,15 @@
  */
 #include "edsac.h"
 #include "proto.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 void
 fetch_order(void)
 {
     WORD curr_order;
+
+    if (Sequence_control_tank < 0 || Sequence_control_tank > 1023) exit(1);
 
     curr_order = Store[Sequence_control_tank++];
 
