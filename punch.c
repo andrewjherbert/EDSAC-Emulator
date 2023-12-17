@@ -186,6 +186,7 @@ punch_char(wint_t c)
             putc(0x1d, stdout);
             break;
         case 'e':               /* Erase */
+        case '*':
             putc(0x1f, stdout);
             break;
         case 'h':               /* Theta */
