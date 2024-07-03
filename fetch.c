@@ -18,7 +18,7 @@ fetch_order(void)
 {
     WORD curr_order;
 
-    if (Sequence_control_tank > 1023) exit(1);
+    if (Sequence_control_tank > 1023) error("Attempt to access beyond end of store");
 
     curr_order = Store[Sequence_control_tank++];
 
