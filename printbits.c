@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "edsac.h"
+#include "proto.h"
 
 
 void

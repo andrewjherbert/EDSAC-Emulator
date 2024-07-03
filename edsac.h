@@ -2,6 +2,7 @@
  * edsac.h -- definitions relating to EDSAC's operating characteristics
  *
  * LW   01/03/90
+ * AJH  03/07/24 -- minor tidy re signed/unsigned int
  */
 
 typedef enum {STOPPED, RUNNING} STATUS;

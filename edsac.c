@@ -4,6 +4,7 @@
  * LW   04/21/89
  * LW   09/14/21 -- function headers updated to C89
  * AJH  10/03/22 -- tracing and order limit features added
+ * AJH  03/07/24 -- minor tidy re signed/unsigned int
  */
 #include <stdio.h>
 #include "edsac.h"

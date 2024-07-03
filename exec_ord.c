@@ -4,6 +4,7 @@
  * LW   03/30/89
  * LW   09/14/21 -- function headers updated to C89
  * AJH  10/03/22 -- added tracing or order execution
+ * AJH  03/07/24 -- minor tidy re signed/unsigned int
  */
 #include "edsac.h"
 #include "proto.h"
@@ -56,7 +57,7 @@ exec_order(void)
     int i;
     /* call the appropriate function to perform the operation */
     WORD sct = Sequence_control_tank; /* remember sct in order to detect jumps */
-    if ( Verbose > 0 ) 
+    if ( Verbose > 0 )
       fputc(ORDER_CODES[Order_tank.o_func], stderr);
     /* call the appropriate function to perform the operation */
     Optab[Order_tank.o_func](Order_tank.o_addr, Order_tank.o_long);
