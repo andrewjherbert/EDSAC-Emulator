@@ -1,11 +1,12 @@
 /*
  * init.c -- Routines to load initial orders into memory and
  *           to process command-line options.
- *           
+ *
  *
  * LW   01/06/90
  * LW   09/14/21 -- function headers updated to C89
  * AJH  10/03/22 -- new arguments -v -l -b
+ * AJH  03/07/24 -- minor tidies to enable compilation on Windows
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -57,10 +58,10 @@ static int Initial_Orders = 1; /* or 0 or -1 */
 */
 
 WORD
-read_18_bits()
+read_18_bits(void)
 {
-  int64_t word = 0;
-  int bit, ch = fgetc(Tape_reader); 
+  unsigned word = 0;
+  int bit, ch = fgetc(Tape_reader);
 
   while ( ch != EOF ) {
     while ( strchr(" \n\t\r", ch) != NULL ) {
@@ -87,9 +88,9 @@ read_18_bits()
   }
   return -1; /* run out of data */
 }
-    
+
 void
-read_binary_to_store()
+read_binary_to_store(void)
 {
   int i, loc = 0, value;
   int ch = fgetc(Tape_reader);
@@ -97,7 +98,7 @@ read_binary_to_store()
     /* dispose of BOM if present */
     if ( ch == 0xEF ) {
       for ( i = 1 ; i <= 3 ; i++ ) fgetc(Tape_reader);
-    } 
+    }
   }
   ungetc(ch, Tape_reader);
 
@@ -113,7 +114,7 @@ read_binary_to_store()
     }
     loc++;
   }
-  
+
 }
 
 /*

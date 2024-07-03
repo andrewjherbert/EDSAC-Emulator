@@ -6,6 +6,7 @@
  *
  * LW   03/30/89
  * LW   09/14/21 -- function headers updated to C89
+ * AJH  03/07/24 -- removed test for (unsigned) Sequence_control_tank < 0
  */
 #include "edsac.h"
 #include "proto.h"
@@ -17,7 +18,7 @@ fetch_order(void)
 {
     WORD curr_order;
 
-    if (Sequence_control_tank < 0 || Sequence_control_tank > 1023) exit(1);
+    if (Sequence_control_tank > 1023) exit(1);
 
     curr_order = Store[Sequence_control_tank++];
 

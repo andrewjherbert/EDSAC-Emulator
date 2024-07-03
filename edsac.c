@@ -30,5 +30,5 @@ STATUS EDSAC_status = STOPPED;              /* is machine running or not? */
 /*
  * tracing and order limit
  */
-int Verbose = TRACE_NONE;
-int  Order_limit = -1;                           /* run until error or stopped */
+unsigned Verbose = TRACE_NONE;
+unsigned Order_limit = -1;                           /* run until error or stopped */

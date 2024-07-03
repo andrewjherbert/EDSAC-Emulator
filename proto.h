@@ -23,6 +23,8 @@ void execute(void);
 /* fetch.c */
 void fetch_order(void);
 /* init.c */
+WORD read_18_bits(void);
+void read_binary_to_store(void);
 void initialize(void);
 void process_options(char *options);
 /* inout.c */
@@ -39,6 +41,11 @@ void load_multiplier(ADDR n,int lflag);
 void do_mult(ADDR n,int lflag);
 void add_into_acc(void);
 void sub_from_acc(void);
+/* printbits.c */
+void printbits_n(WORD x, int n);
+void printbits_17(WORD x);
+void printbits_18(WORD x);
+
 /* shift.c */
 void shift_right(CONTROL_WORD control);
 void shift_left(CONTROL_WORD control);

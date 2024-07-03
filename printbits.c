@@ -1,7 +1,7 @@
 /*
  * printbits.c -- print binary numbers
  *
- * AH   28/11/21 - tracing and order limit
+ * AJH   28/11/21 - tracing and order limit
  */
 
 #include <stdio.h>
@@ -18,7 +18,7 @@ printbits_n(x,n)
     fputc('0'|(x>>i)&1,stderr);
 
 }
-     
+
 void
 printbits_18(x)
 WORD x;

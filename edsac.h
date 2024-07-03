@@ -14,8 +14,11 @@ extern STATUS EDSAC_status;
  */
 typedef long WORD;
 
+
+
 #define HIWORD_BITS     17                          /* # of bits/word */
-#define MAX_HIWORD      (~(~0L << HIWORD_BITS))     /* mask for usable bits */
+#define MAX_HIWORD      (~(~0u << HIWORD_BITS))
+                                                    /* mask for usable bits */
 
 #define SIGN_BIT        (1L << (HIWORD_BITS-1))     /* most sig. bit */
 #define SANDWICH_BIT    (SIGN_BIT << 1)             /* bit between words */
@@ -35,13 +38,14 @@ typedef struct {
 } ORDER;
 
 #define FUNC_BITS           5                       /* 5 bits */
-#define MAX_FUNC            (~(~0 << FUNC_BITS))    /* function mask */
+#define MAX_FUNC            (~(~0u << FUNC_BITS))    /* function mask */
 
 #define ADDR_BITS           11                      /* 11 bits */
-#define MAX_ADDR            (~(~0 << ADDR_BITS))    /* address mask */
+#define MAX_ADDR            (~(~0u << ADDR_BITS))    /* address mask */
 
 #define FLAG_BITS           1                       /* 1 bit  */
-#define MAX_FLAG            (~(~0 << FLAG_BITS))    /* flag mask */
+#define MAX_FLAG            (~(~0u << FLAG_BITS))
+                                                    /* flag mask */
 
 typedef unsigned int CONTROL_WORD;  /* control word for shift orders */
                                     /* must hold at least 15 bits */
@@ -66,11 +70,11 @@ extern ORDER Order_tank;
  * Order tracing and execution limit
  */
 
-extern int Verbose;  /* set verbosity of emulation */
-		     /* 0 = no reports             */
-                     /* 1 = trace orders           */
+extern unsigned Verbose;  /* set verbosity of emulation */
+		              /* 0 = no reports             */
+                      /* 1 = trace orders           */
 
-#define TRACE_NONE     0
-#define TRACE_ORDERS   1
+#define TRACE_NONE     0u
+#define TRACE_ORDERS   1u
 
-extern int Order_limit;
+extern unsigned Order_limit;
