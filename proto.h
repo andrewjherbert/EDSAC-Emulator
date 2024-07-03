@@ -14,10 +14,11 @@ void pos_branch(ADDR n,int lflag);
 void neg_branch(ADDR n,int lflag);
 /* edsac.c */
 /* error.c */
-void error(ADDR n,int lflag);
+void error(char* msg);
 int check_addr(ADDR n,int lflag);
 /* exec_ord.c */
 void exec_order(void);
+void undefined(ADDR n, int lflag);
 /* execute.c */
 void execute(void);
 /* fetch.c */

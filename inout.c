@@ -26,8 +26,7 @@ input(ADDR n, int lflag)
     if (lflag)
         Store[n++] = 0;
 
-    if ((c = getc(Tape_reader)) == EOF)
-        error(n, lflag);
+    if ((c = getc(Tape_reader)) == EOF) error("Run off end of input tape");
 
     Store[n] = (Store[n] & SANDWICH_BIT) + ((c & MAX_CHAR) ^ CHAR_HI_BIT);
 }

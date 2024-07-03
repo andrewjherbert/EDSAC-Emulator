@@ -15,10 +15,16 @@
  */
 typedef void (*EXEC_FUNC)(ADDR, int);
 
+void
+undefined (ADDR a, int lflag)
+{
+	error("Undefined order type");
+}
+
 static EXEC_FUNC Optab[] = {
-    error,              /* P */
-    error,              /* Q */
-    error,              /* W */
+    undefined,          /* P */
+    undefined,          /* Q */
+    undefined,          /* W */
     pos_branch,         /* E */
     rshift,             /* R */
     transfer,           /* T */
@@ -26,26 +32,26 @@ static EXEC_FUNC Optab[] = {
     u_transfer,         /* U */
     input,              /* I */
     output,             /* O */
-    error,              /* J */
-    error,              /* Pi */
+    undefined,          /* J */
+    undefined,          /* Pi */
     subtract,           /* S */
     halt,               /* Z */
-    error,              /* K */
-    error,              /* Erase */
-    error,              /* blank */
+    undefined,          /* K */
+    undefined,          /* Erase */
+    undefined,          /* blank */
     print_check,        /* F */
-    error,              /* Theta */
-    error,              /* D */
-    error,              /* Phi */
+    undefined,          /* Theta */
+    undefined,          /* D */
+    undefined,          /* Phi */
     load_multiplier,    /* H */
     mult_sub,           /* N */
-    error,              /* M */
-    error,              /* Delta */
+    undefined,          /* M */
+    undefined,          /* Delta */
     lshift,             /* L */
     no_operation,       /* X */
     neg_branch,         /* G */
     add,                /* A */
-    error,              /* B */
+    undefined,          /* B */
     collate,            /* C */
     mult_add            /* V */
 };

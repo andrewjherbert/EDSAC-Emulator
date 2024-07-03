@@ -5,6 +5,7 @@
  * LW   09/14/21 -- function headers updated to C89
  */
 #include <stdio.h>
+#include <stdlib.h>
 #include "edsac.h"
 #include "proto.h"
 
@@ -13,22 +14,24 @@
 static const char Codes[] = "PQWERTYUIOJ#SZK*.FhD!HNM&LXGABCV";
 
 /*
- * error -- print an error message and halt the machine
+ * error -- print an error message and stop
  */
 void
-error(ADDR n, int lflag)
+error(char* msg)
 {
 
-    fprintf(stderr, "Execution Error\n"
+    fprintf(stderr, "%s at location %u\n"
                     "Order = %c %u %c\n\n",
+                    msg,
+                    Sequence_control_tank - 1,
                     Codes[Order_tank.o_func],
                     Order_tank.o_addr,
                     (Order_tank.o_long ? 'D' : 'F'));
-    halt(n, lflag);
+    exit(1);
 }
 
 /*
- * check_addr -- check address "n" for validity and return it 
+ * check_addr -- check address "n" for validity and return it
  *               (adjusted, if necessary).  If the address is
  *               odd and refers to a long number ("lflag"), it
  *               is forced to be even.  If the address does not
