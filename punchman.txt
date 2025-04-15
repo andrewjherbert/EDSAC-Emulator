@@ -25,7 +25,7 @@ Theta             θ              \h                @
 Delta             Δ              \d                &
 Phi               Φ              \f                !
 
-By convention, the extenstions ".e0" and ".e1" are used for programs
+By convention, the extensions ".e0" and ".e1" are used for programs
 that use the May and the September 1949 versions, respectively, of the
 EDSAC initial orders.  ".e" is also used as a synonym for ".e1".
 

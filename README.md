@@ -4,7 +4,7 @@ Command line emulator for EDSAC computer
 
 Based on Lee Wittenberg's emulator from Computer Conservation Society web site.
 
-Extended with features of use to memebrs of the EDSAC Replica Project at the UK
+Extended with features of use to members of the EDSAC Replica Project at the UK
 National Museum of Computing:
 
   -b -- option to load store with a binary file  (simulates SSI unit upload)
